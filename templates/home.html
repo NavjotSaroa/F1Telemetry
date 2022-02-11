@@ -6,27 +6,33 @@
 {%endblock%}
 
 {%block main%}
-    <select class="dropdown" name="year">
+    <div>
+        <select class="dropdown" name="year">
         <option disabled selected>Select Year</option>
         {%for i in range(0, years|length)%}
             <option value="year">{{year}}</option>
         {%endfor%}
-    </select>
-    {%if year%}
-        <select class="dropdown" name="track">
-            <option disabled selected>Select Track</option>
-            {%for i in range(0, tracks|length)%}
-                <option value="track">{{track}}</option>
-            {%endfor%}
         </select>
+    </div>
+    {%if year%}
+        <div>
+            <select class="dropdown" name="track">
+                <option disabled selected>Select Track</option>
+                {%for i in range(0, tracks|length)%}
+                    <option value="track">{{track}}</option>
+                {%endfor%}
+            </select>
+        </div>
     {%endif%}
     {%if track%}
-        <select class="dropdown" name="driver">
-            <option disabled selected>Select Driver</option>
-            {%for i in range(0, drivers|length)%}
-                <option value="driver">{{driver}}</option>
-            {%endfor%}
-        </select>
+        <div>
+            <select class="dropdown" name="driver">
+                <option disabled selected>Select Driver</option>
+                {%for i in range(0, drivers|length)%}
+                    <option value="driver">{{driver}}</option>
+                {%endfor%}
+            </select>
+        </div>
     {%endif%}
     <div class="driver_telemetry">
         Driver telemetry goes here
