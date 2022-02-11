@@ -8,11 +8,11 @@ from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-from matplotlib import pyplot as plt
-import fastf1 as ff1
-from fastf1 import plotting
-from fastf1 import Cache
-import pandas as pd
+# from matplotlib import pyplot as plt
+# import fastf1 as ff1
+# from fastf1 import plotting
+# from fastf1 import Cache
+# import pandas as pd
 
 # Configure application
 app = Flask(__name__)
@@ -52,8 +52,8 @@ def index():
     # session = request.form.get("session")
     # driver = request.form.get("driver")
 
-    print("hello")
-    return render_template("layout.html")
+    
+    return render_template("home.html")
 
 # if __name__ == "__main__":
 #     from waitress import serve

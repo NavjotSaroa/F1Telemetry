@@ -1,9 +1,10 @@
 {%extends "layout.html"%}
-
 {%block nav%}
-    <a class="active"><div><p>F1 Telemetry</p></div> </a>
-    <a class="passive"><div>About</div></a>
-{%endblock%}
+<nav>
+    <a href="/" class="btn btn-primary active"><div><p>F1 Telemetry</p></div> </a>
+    <a href="/about" class="btn btn-primary passive"><div>About</div></a>
+</nav>
+    {%endblock%}
 
 {%block main%}
     <div>
