@@ -1,4 +1,38 @@
 {%extends layout.html%}
 
-{%block nav}
+{%block nav%}
     <a class="active"><div><p>F1 Telemetry</p></div> </a>
+    <a class="passive"><div>About</div></a>
+{%endblock%}
+
+{%block main%}
+    <select name="year">
+        <option disabled selected>Select Year</option>
+        {%for i in range(0, years|length)%}
+            <option value="year">{{year}}</option>
+        {%endfor%}
+    </select>
+    {%if year%}
+        <select name="track">
+            <option disabled selected>Select Track</option>
+            {%for i in range(0, tracks|length)%}
+                <option value="track">{{track}}</option>
+            {%endfor%}
+        </select>
+    {%endif%}
+    {%if track%}
+        <select name="driver">
+            <option disabled selected>Select Driver</option>
+            {%for i in range(0, drivers|length)%}
+                <option value="driver">{{driver}}</option>
+            {%endfor%}
+        </select>
+    {%endif%}
+    <div>
+        Driver telemetry goes here
+    </div>
+    <!-- Only add the below div if you have your own telemetry -->
+    <div>
+        Your telemetry goes here
+    </div>
+        
