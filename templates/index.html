@@ -1,46 +1,46 @@
 {%extends "layout.html"%}
 {%block nav%}
-<nav>
-    <a href="/" class="btn btn-primary alive"><div><p>F1 Telemetry</p></div> </a>
-    <a href="/about" class="btn btn-primary about passive"><div>About</div></a>
-</nav>
-    {%endblock%}
+
+    <a href="/" class="alive navlink"><div><p>F1 Telemetry</p></div> </a>
+    <a href="/about" class="passive navlink"><div>About</div></a>
+{%endblock%}
 
 {%block main%}
-    <div>
-        <select class="dropdown" name="year">
-        <option disabled selected>Select Year</option>
-        {%for i in range(0, years|length)%}
-            <option value="year">{{year}}</option>
-        {%endfor%}
-        </select>
-    </div>
-    {%if year%}
-        <div>
-            <select class="dropdown" name="track">
+    <div class="container mx-auto row gx-5" >
+        <form action="/">
+            <select class="dropdown form-select" name="year">
+                <option disabled selected>Select Year</option>
+                {%for year in years%}
+                    <option value="year">{{year}}</option>
+                {%endfor%}
+            </select>
+        </form>
+        {%if years%}
+        <form action="/">
+            <select class="dropdown form-select" name="track">
                 <option disabled selected>Select Track</option>
-                {%for i in range(0, tracks|length)%}
+                {%for track in tracks%}
                     <option value="track">{{track}}</option>
                 {%endfor%}
             </select>
-        </div>
-    {%endif%}
-    {%if track%}
-        <div>
-            <select class="dropdown" name="driver">
+        </form>
+        {%endif%}
+        <form action="/">
+            <select class="dropdown form-select" name="driver">
                 <option disabled selected>Select Driver</option>
-                {%for i in range(0, drivers|length)%}
+                {%for driver in drivers%}
                     <option value="driver">{{driver}}</option>
                 {%endfor%}
             </select>
-        </div>
-    {%endif%}
-    <div class="driver_telemetry">
+        </form>
+    </div>
+    <div class="driver_telemetry telemetry">
         Driver telemetry goes here
     </div>
     <!-- Only add the below div if you have your own telemetry -->
-    <div class="user_telemetry">
+    <div class="user_telemetry telemetry">
         Your telemetry goes here
     </div>
+    
 
 {%endblock%}

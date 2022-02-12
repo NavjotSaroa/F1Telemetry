@@ -1,24 +1,108 @@
-@import url(//db.onlinewebfonts.com/c/08b281ff157d075664adaf90d73131fe?family=F1);
-@font-face {font-family: "F1"; src: url("//db.onlinewebfonts.com/t/08b281ff157d075664adaf90d73131fe.eot"); 
-    src: url("//db.onlinewebfonts.com/t/08b281ff157d075664adaf90d73131fe.eot?#iefix") format("embedded-opentype"),
-    url("//db.onlinewebfonts.com/t/08b281ff157d075664adaf90d73131fe.woff2") format("woff2"), 
-    url("//db.onlinewebfonts.com/t/08b281ff157d075664adaf90d73131fe.woff") format("woff"), 
-    url("//db.onlinewebfonts.com/t/08b281ff157d075664adaf90d73131fe.ttf") format("truetype"), 
-    url("//db.onlinewebfonts.com/t/08b281ff157d075664adaf90d73131fe.svg#F1") format("svg"); }
+
 html, body{
     background-color: #000957;
     color: white;
-    font-family: "F1";
+    font-family: 'Lato', sans-serif;
+}
+
+
+body:not(nav) {
+    animation: fadeInAnimation ease 0.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
 }
 
 nav {
     background-color: #000735;
+    justify-content: center;
+    display:flex;
+
+}
+
+.container {
+    align-content: center;
+}
+
+.dropdown {
+    margin: 20px;
+    background-color: #000735;
+    color: #ffffff
+}
+
+.telemetry, .about{
+    justify-content: center;
+    padding: 30px;
+    display: flex;
+}
+
+.telemetry {
+    border-style: solid;
+    margin: 10px;
+    height: 500px;
+}
+
+.navlink {
+    text-decoration: none;
+    font-family: 'Audiowide', cursive;
+    font-weight: bold;
+    font-size: 50px;
+    margin-left: 200px;
+    margin-right: 250px;
+}
+
+.navlink:hover {
+    transition: color 0.5s;
+}
+
+.alive:hover {
+    color: #ff0000
 }
 
 .alive {
-    /* background-color: #7dff49; */
+    font-weight: bold;
+    color: #ee0000;
 }
 
 .passive {
-    /* background-color: #5bdd27; */
+    font-weight: lighter;
+    color: #2222dd;
 }
+
+.passive:hover {
+    color: #0000ff
+}
+
+.about {
+    padding: 30px;
+}
+
+.info {
+    padding: 30px;
+    font-size: 25px;;
+    justify-content: center;
+    display: flex;
+}
+
+.dropdown {
+    font-family: 'Audiowide', cursive;
+    font-size: 20px;
+}
+
+.credit{
+    color: #ff8b8b
+}
+
+.credit:hover {
+    text-decoration: none;
+    color: #ffadad
+}
+

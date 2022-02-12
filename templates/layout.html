@@ -10,18 +10,25 @@
         <link href="../static/styles.css" rel="stylesheet">
         <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
         <link href="//db.onlinewebfonts.com/c/08b281ff157d075664adaf90d73131fe?family=F1" rel="stylesheet" type="text/css"/>
-        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,700;1,300&display=swap" rel="stylesheet">
         <title>F1 Telemetry</title>
+
     </head>
     <body>
         <nav class="navbar">
             {%block nav%}{%endblock%}
         </nav>
+        <div style="height:20px;"></div>
         <main class="main">
             {%block main%}{%endblock%}
         </main>
-        <footer class="mb-5 small text-center text-muted">
-            <p class="small_text">Data collected from <a href="https://theoehrly.github.io/Fast-F1/">fastf1</a></p>
+        <footer class="mb-5 small text-center" style="color:#cccccc">
+            <p class="small_text">Data collected from <a href="https://theoehrly.github.io/Fast-F1/" class="credit">fastf1</a></p>
         </footer>
     </body>
 </html>

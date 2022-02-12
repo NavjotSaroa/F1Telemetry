@@ -8,11 +8,11 @@ from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
-# from matplotlib import pyplot as plt
-# import fastf1 as ff1
-# from fastf1 import plotting
-# from fastf1 import Cache
-# import pandas as pd
+from matplotlib import pyplot as plt
+import fastf1 as ff1
+from fastf1 import plotting
+from fastf1 import Cache
+import pandas as pd
 
 # Configure application
 app = Flask(__name__)
@@ -40,20 +40,44 @@ def after_request(response):
 def index():
     """Allow user to select  driver"""
 
-    #Figure out a way to get all tracks of a season, then all sessions of a track, and then all drivers of a session.
-    # tracks=[]
 
-    # for i in range(1,23):
-    #     tracks.append(ff1.get_session(2021, i, "R").weekend.name)
+    # Figure out a way to get all tracks of a season, then all sessions of a track, and then all drivers of a session.
+    years = [i for i in range(2018,2022)]
 
+    print(request.args.get("year"))
 
+    # Yes this is not pretty code, but it takes a while to run so this way the user doesn't have to wait for long for the next bit to show up.
+    if request.form.get("year") != None:
+        if int(request.args.get("year")) == 2018:
+            tracks=['Australian Grand Prix', 'Bahrain Grand Prix', 'Chinese Grand Prix', 'Azerbaijan Grand Prix', 
+            'Spanish Grand Prix', 'Monaco Grand Prix', 'Canadian Grand Prix', 'French Grand Prix', 
+            'Austrian Grand Prix', 'British Grand Prix', 'German Grand Prix', 'Hungarian Grand Prix', 
+            'Belgian Grand Prix', 'Italian Grand Prix', 'Singapore Grand Prix', 'Russian Grand Prix', 
+            'Japanese Grand Prix', 'United States Grand Prix', 'Mexican Grand Prix', 'Brazilian Grand Prix', 
+            'Abu Dhabi Grand Prix']
 
-    # track = request.form.get("track")
-    # session = request.form.get("session")
-    # driver = request.form.get("driver")
+        elif int(request.args.get("year")) == 2019:
+            tracks=['Australian Grand Prix', 'Bahrain Grand Prix', 'Chinese Grand Prix', 'Azerbaijan Grand Prix', 
+            'Spanish Grand Prix', 'Monaco Grand Prix', 'Canadian Grand Prix', 'French Grand Prix', 'Austrian Grand Prix', 
+            'British Grand Prix', 'German Grand Prix', 'Hungarian Grand Prix', 'Belgian Grand Prix', 'Italian Grand Prix', 
+            'Singapore Grand Prix', 'Russian Grand Prix', 'Japanese Grand Prix', 'Mexican Grand Prix', 'United States Grand Prix', 
+            'Brazilian Grand Prix', 'Abu Dhabi Grand Prix']
 
-    
-    return render_template("index.html")
+        elif int(request.args.get("year")) == 2020:
+            tracks=['Austrian Grand Prix', 'Styrian Grand Prix', 'Hungarian Grand Prix', 'British Grand Prix', 
+            '70th Anniversary Grand Prix', 'Spanish Grand Prix', 'Belgian Grand Prix', 'Italian Grand Prix', 
+            'Tuscan Grand Prix', 'Russian Grand Prix', 'Eifel Grand Prix', 'Portuguese Grand Prix', 'Emilia Romagna Grand Prix', 
+            'Turkish Grand Prix', 'Bahrain Grand Prix', 'Sakhir Grand Prix', 'Abu Dhabi Grand Prix']
+        else:
+            tracks=['Bahrain Grand Prix', 'Emilia Romagna Grand Prix', 'Portuguese Grand Prix', 
+            'Spanish Grand Prix', 'Monaco Grand Prix', 'Azerbaijan Grand Prix', 'French Grand Prix', 
+            'Styrian Grand Prix', 'Austrian Grand Prix', 'British Grand Prix', 'Hungarian Grand Prix', 
+            'Belgian Grand Prix', 'Dutch Grand Prix', 'Italian Grand Prix', 'Russian Grand Prix', 
+            'Turkish Grand Prix', 'United States Grand Prix', 'Mexico City Grand Prix', 'São Paulo Grand Prix', 
+            'Qatar Grand Prix', 'Saudi Arabian Grand Prix', 'Abu Dhabi Grand Prix']
+        return render_template("index.html", years=years, tracks=tracks)
+
+    return render_template("index.html", years=years)
 
 @app.route("/about")
 def about():
