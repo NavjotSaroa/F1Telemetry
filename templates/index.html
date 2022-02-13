@@ -7,31 +7,21 @@
 
 {%block main%}
     <div class="container mx-auto row gx-5" >
-        <form action="/">
-            <select class="dropdown form-select" name="year">
-                <option disabled selected>Select Year</option>
-                {%for year in years%}
-                    <option value="year">{{year}}</option>
+        <form action="/", method="get">
+            <select class="dropdown form-select" name="season">
+                <option disabled selected>Select season</option>
+                {%for season in seasons%}
+                    <option value="season">{{season}}</option>
                 {%endfor%}
             </select>
-        </form>
-        {%if years%}
-        <form action="/">
-            <select class="dropdown form-select" name="track">
-                <option disabled selected>Select Track</option>
-                {%for track in tracks%}
-                    <option value="track">{{track}}</option>
+            <input name="track" autocomplete="off" placeholder="Enter track name" class="form-control intrack">
+            <select class="dropdown form-select" name="session">
+                <option disabled selected>Select Session</option>
+                {%for session in sessions%}
+                    <option value="session">{{session}}</option>
                 {%endfor%}
             </select>
-        </form>
-        {%endif%}
-        <form action="/">
-            <select class="dropdown form-select" name="driver">
-                <option disabled selected>Select Driver</option>
-                {%for driver in drivers%}
-                    <option value="driver">{{driver}}</option>
-                {%endfor%}
-            </select>
+            <input name="driver" autocomplete="off" placeholder="Enter driver name" class="form-control indriver">
         </form>
     </div>
     <div class="driver_telemetry telemetry">

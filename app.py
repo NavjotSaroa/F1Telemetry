@@ -5,7 +5,6 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
-from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 from matplotlib import pyplot as plt
@@ -19,6 +18,8 @@ app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+db = SQL("sqlite:///telemetry.db")
 
 
 
@@ -36,48 +37,33 @@ def after_request(response):
     return response
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     """Allow user to select  driver"""
 
 
     # Figure out a way to get all tracks of a season, then all sessions of a track, and then all drivers of a session.
-    years = [i for i in range(2018,2022)]
+    if request.method =="POST":
+        
 
-    print(request.args.get("year"))
+        lst = db.execute("SELECT DISTINCT(year) FROM f1;")
+        years=[]
+        for i in lst:
+            years.append(i['year'])
 
-    # Yes this is not pretty code, but it takes a while to run so this way the user doesn't have to wait for long for the next bit to show up.
-    if request.form.get("year") != None:
-        if int(request.args.get("year")) == 2018:
-            tracks=['Australian Grand Prix', 'Bahrain Grand Prix', 'Chinese Grand Prix', 'Azerbaijan Grand Prix', 
-            'Spanish Grand Prix', 'Monaco Grand Prix', 'Canadian Grand Prix', 'French Grand Prix', 
-            'Austrian Grand Prix', 'British Grand Prix', 'German Grand Prix', 'Hungarian Grand Prix', 
-            'Belgian Grand Prix', 'Italian Grand Prix', 'Singapore Grand Prix', 'Russian Grand Prix', 
-            'Japanese Grand Prix', 'United States Grand Prix', 'Mexican Grand Prix', 'Brazilian Grand Prix', 
-            'Abu Dhabi Grand Prix']
+        season = request.form.get("season")
+        print(season)
+        track = request.form.get("track")
+        print(track)
+        driver = request.form.get("driver")
+        print(driver) 
 
-        elif int(request.args.get("year")) == 2019:
-            tracks=['Australian Grand Prix', 'Bahrain Grand Prix', 'Chinese Grand Prix', 'Azerbaijan Grand Prix', 
-            'Spanish Grand Prix', 'Monaco Grand Prix', 'Canadian Grand Prix', 'French Grand Prix', 'Austrian Grand Prix', 
-            'British Grand Prix', 'German Grand Prix', 'Hungarian Grand Prix', 'Belgian Grand Prix', 'Italian Grand Prix', 
-            'Singapore Grand Prix', 'Russian Grand Prix', 'Japanese Grand Prix', 'Mexican Grand Prix', 'United States Grand Prix', 
-            'Brazilian Grand Prix', 'Abu Dhabi Grand Prix']
+        return redirect("/")
 
-        elif int(request.args.get("year")) == 2020:
-            tracks=['Austrian Grand Prix', 'Styrian Grand Prix', 'Hungarian Grand Prix', 'British Grand Prix', 
-            '70th Anniversary Grand Prix', 'Spanish Grand Prix', 'Belgian Grand Prix', 'Italian Grand Prix', 
-            'Tuscan Grand Prix', 'Russian Grand Prix', 'Eifel Grand Prix', 'Portuguese Grand Prix', 'Emilia Romagna Grand Prix', 
-            'Turkish Grand Prix', 'Bahrain Grand Prix', 'Sakhir Grand Prix', 'Abu Dhabi Grand Prix']
-        else:
-            tracks=['Bahrain Grand Prix', 'Emilia Romagna Grand Prix', 'Portuguese Grand Prix', 
-            'Spanish Grand Prix', 'Monaco Grand Prix', 'Azerbaijan Grand Prix', 'French Grand Prix', 
-            'Styrian Grand Prix', 'Austrian Grand Prix', 'British Grand Prix', 'Hungarian Grand Prix', 
-            'Belgian Grand Prix', 'Dutch Grand Prix', 'Italian Grand Prix', 'Russian Grand Prix', 
-            'Turkish Grand Prix', 'United States Grand Prix', 'Mexico City Grand Prix', 'São Paulo Grand Prix', 
-            'Qatar Grand Prix', 'Saudi Arabian Grand Prix', 'Abu Dhabi Grand Prix']
-        return render_template("index.html", years=years, tracks=tracks)
-
-    return render_template("index.html", years=years)
+    #TODO: Create appropriate table in database for storing year, track, and driver and see if that is any easier.
+    
+    else:
+        return render_template("index.html") 
 
 @app.route("/about")
 def about():

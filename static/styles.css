@@ -106,3 +106,9 @@ nav {
     color: #ffadad
 }
 
+.intrack, .indriver {
+    background-color: #000735;
+    font-family: 'Audiowide', cursive;
+    font-size: 20px;
+    margin: 20px;
+}
