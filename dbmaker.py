@@ -11,7 +11,6 @@ import pandas as pd
 
 db = SQL("sqlite:///telemetry.db")
 
-
 dictionary = {2018:['Australian Grand Prix', 'Bahrain Grand Prix', 'Chinese Grand Prix', 'Azerbaijan Grand Prix', 
         'Spanish Grand Prix', 'Monaco Grand Prix', 'Canadian Grand Prix', 'French Grand Prix', 
         'Austrian Grand Prix', 'British Grand Prix', 'German Grand Prix', 'Hungarian Grand Prix', 
