@@ -6,24 +6,77 @@
 {%endblock%}
 
 {%block main%}
+{% if (not year) and (not track) and (not event) and (not driver) %}
+<!-- Selecting year here -->
     <div class="container mx-auto row gx-5" >
         <form action="/", method="get">
-            <select class="dropdown form-select" name="season">
-                <option disabled selected>Select season</option>
-                {%for season in seasons%}
-                    <option value="season">{{season}}</option>
+            <select name="year" class="dropdown form-select">
+                <option disabled selected>Select Year</option>
+                {%for year in years%}
+                    <option value="{{year}}">{{year}}</option>
                 {%endfor%}
             </select>
-            <input name="track" autocomplete="off" placeholder="Enter track name" class="form-control intrack">
-            <select class="dropdown form-select" name="session">
-                <option disabled selected>Select Session</option>
-                {%for session in sessions%}
-                    <option value="session">{{session}}</option>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div> 
+
+{% elif (year) and (not track) and (not event) and (not driver)  %}
+<!-- Selecting track here -->
+    <div class="container mx-auto row gx-5" >
+        <h1> Year: {{year}} </h1>
+        <form action="/", method="get">
+            <select name="track" class="dropdown form-select">
+                <option disabled selected>Select Track</option>
+                {%for track in tracks%}
+                    <option value="{{track}}">{{track}}</option>
                 {%endfor%}
             </select>
-            <input name="driver" autocomplete="off" placeholder="Enter driver name" class="form-control indriver">
+            <button class="btn btn-primary" type="submit">Submit</button>
         </form>
     </div>
+
+
+{% elif (year) and (track) and (not event) and (not driver) %}
+<!-- Selecting session here -->
+    <div class="container mx-auto row gx-5" >
+        <h1> Year: {{year}} </h1>
+        <h1> Track: {{track}} </h1>
+        <form action="/", method="get">
+            <select name="event" class="dropdown form-select">
+                <option disabled selected>Select Session</option>
+                {%for event in events%}
+                    <option value="{{event}}">{{event}}</option>
+                {%endfor%}
+            </select>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+
+{% elif (year) and (track) and (event) and (not driver) %}
+<!-- Selecting driver -->
+    <div class="container mx-auto row gx-5" >
+        <h1> Year: {{year}} </h1>
+        <h1> Track: {{track}} </h1>
+        <h1> Session: {{event}}</h1>
+        <form action="/", method="get">
+            <select name="driver" class="dropdown form-select">
+                <option disabled selected>Select Driver</option>
+                {%for driver in drivers%}
+                    <option value="{{driver}}">{{driver}}</option>
+                {%endfor%}
+            </select>
+            <button class="btn btn-primary" id="submit" type="submit">Submit</button>
+        </form>
+    </div>
+
+{% else %}
+    <div class="container mx-auto row gx-5" >
+        <h1> Year: {{year}} </h1>
+        <h1> Track: {{track}} </h1>
+        <h1> Session: {{event}}</h1>
+        <h1> Driver: {{driver}}</h1>
+    </div>
+{%endif%}
     <div class="driver_telemetry telemetry">
         Driver telemetry goes here
     </div>

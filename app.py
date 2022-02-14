@@ -37,38 +37,84 @@ def after_request(response):
     return response
 
 
-@app.route("/", methods=["GET", "POST"])
+# Everything above this is pretty much all taken from CS50's Flask problem set, apart from lines 10 to 14
+
+@app.route("/")
 def index():
     """Allow user to select  driver"""
 
+    year = request.args.get("year")
+    track = request.args.get("track")
+    event = request.args.get("event")
+    driver = request.args.get("driver") # Point of these is just to initialise the variables really
 
-    # Figure out a way to get all tracks of a season, then all sessions of a track, and then all drivers of a session.
-    if request.method =="POST":
+    if (not year) and (not track) and (not event) and (not driver): # Selecting year here
+        db.execute("INSERT INTO query(year, track, session, driver) VALUES('','','','');")
         
+        """I realised that calling session that here was not a smart idea, just that I realised that way too late and the rest of the
+        code just works with this, any mention of session in this function refers to an F1 session rather than the flask_session import 
+        though. 'session' comes from the html, the equivalent in this python code is 'event'."""
 
         lst = db.execute("SELECT DISTINCT(year) FROM f1;")
         years=[]
         for i in lst:
-            years.append(i['year'])
+            years.append(i['year']) # Generates a list of years between 2018 and 2021, the years where fastf1 data is apparently good.
 
-        season = request.form.get("season")
-        print(season)
-        track = request.form.get("track")
+        return render_template("index.html", years=years) 
+
+    elif year: # Selecting track here
+        db.execute("UPDATE query SET year = ? WHERE year = (SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query));", year)
+        lst = db.execute("SELECT DISTINCT(track) FROM f1 WHERE year = ?;", year)
+        tracks = []
+        for i in lst:
+            tracks.append(i['track']) # Generates a list of tracks that were raced on in the selected year
+
+        return render_template("index.html", year=year, tracks=tracks)
+
+    elif track: # Selecting event here
         print(track)
-        driver = request.form.get("driver")
-        print(driver) 
+        db.execute("UPDATE query SET track = ? WHERE track = (SELECT track FROM query WHERE id = (SELECT MAX(id) FROM query));", track)
+        year = db.execute("SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query);")
+        year = year[-1]["year"]
 
-        return redirect("/")
+        lst = db.execute("SELECT DISTINCT(session) FROM f1 WHERE year=? AND track=?;", year, track)
+        events = []
+        for i in lst:
+            events.append(i['session']) # Generates a list of sessions/events
+            # Should almost always be ["FP1", "FP2", "FP3", "Q", "R"] or ["FP1", "FP2", "Q", "SQ", "R"] unless a session was abandoned.
 
-    #TODO: Create appropriate table in database for storing year, track, and driver and see if that is any easier.
-    
-    else:
-        return render_template("index.html") 
+        return render_template("index.html", year=year, track=track, events=events)
+
+    elif event: # Selecting driver here
+        db.execute("UPDATE query SET session = ? WHERE session = (SELECT session FROM query WHERE id = (SELECT MAX(id) FROM query));", event)
+        year = db.execute("SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query);")
+        year = year[-1]["year"]
+
+        track = db.execute("SELECT track FROM query WHERE id = (SELECT MAX(id) FROM query);")
+        track = track[-1]["track"]
+
+        lst = db.execute("SELECT DISTINCT(drivers) FROM f1 WHERE year=? AND track=? AND session=?;", year, track, event)
+        drivers = []
+        for i in lst:
+            drivers.append(i['drivers']) # Generates a list of all drivers that participated in the session.
+
+        return render_template("index.html", year=year, track=track, event=event, drivers=drivers)
+
+    elif driver: # Just shows the choices at the end
+        db.execute("UPDATE query SET driver = ? WHERE driver = (SELECT driver FROM query WHERE id = (SELECT MAX(id) FROM query));", driver)
+        year = db.execute("SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query);")
+        year = year[-1]["year"]
+
+        track = db.execute("SELECT track FROM query WHERE id = (SELECT MAX(id) FROM query);")
+        track = track[-1]["track"]
+
+        event = db.execute("SELECT session FROM query WHERE id = (SELECT MAX(id) FROM query);")
+        event = event[-1]["session"]
+
+        return render_template("index.html", year=year, track=track, session=event, driver=driver)
+
+
 
 @app.route("/about")
 def about():
     return render_template("about.html")
-
-# if __name__ == "__main__":
-#     from waitress import serve
-#     serve(app, host="0.0.0.0", port=8080)

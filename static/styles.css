@@ -59,6 +59,10 @@ nav {
     margin-right: 250px;
 }
 
+h1 {
+    font-family: 'Audiowide', cursive;
+}
+
 .navlink:hover {
     transition: color 0.5s;
 }
