@@ -50,6 +50,7 @@ def index():
 
     if (not year) and (not track) and (not event) and (not driver): # Selecting year here
         db.execute("INSERT INTO query(year, track, session, driver) VALUES('','','','');")
+        # id = db.execute("SELECT id FROM ")
         
         """I realised that calling session that here was not a smart idea, just that I realised that way too late and the rest of the
         code just works with this, any mention of session in this function refers to an F1 session rather than the flask_session import 
@@ -63,7 +64,7 @@ def index():
         return render_template("index.html", years=years) 
 
     elif year: # Selecting track here
-        db.execute("UPDATE query SET year = ? WHERE year = (SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query));", year)
+        db.execute("UPDATE query SET year = ? WHERE id = (SELECT MAX(id) FROM query);", year)
         lst = db.execute("SELECT DISTINCT(track) FROM f1 WHERE year = ?;", year)
         tracks = []
         for i in lst:
@@ -73,7 +74,7 @@ def index():
 
     elif track: # Selecting event here
         print(track)
-        db.execute("UPDATE query SET track = ? WHERE track = (SELECT track FROM query WHERE id = (SELECT MAX(id) FROM query));", track)
+        db.execute("UPDATE query SET track = ? WHERE id = (SELECT MAX(id) FROM query);", track)
         year = db.execute("SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query);")
         year = year[-1]["year"]
 
@@ -86,7 +87,7 @@ def index():
         return render_template("index.html", year=year, track=track, events=events)
 
     elif event: # Selecting driver here
-        db.execute("UPDATE query SET session = ? WHERE session = (SELECT session FROM query WHERE id = (SELECT MAX(id) FROM query));", event)
+        db.execute("UPDATE query SET session = ? WHERE id = (SELECT MAX(id) FROM query);", event)
         year = db.execute("SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query);")
         year = year[-1]["year"]
 
@@ -101,7 +102,7 @@ def index():
         return render_template("index.html", year=year, track=track, event=event, drivers=drivers)
 
     elif driver: # Just shows the choices at the end
-        db.execute("UPDATE query SET driver = ? WHERE driver = (SELECT driver FROM query WHERE id = (SELECT MAX(id) FROM query));", driver)
+        db.execute("UPDATE query SET driver = ? WHERE id = (SELECT MAX(id) FROM query);", driver)
         year = db.execute("SELECT year FROM query WHERE id = (SELECT MAX(id) FROM query);")
         year = year[-1]["year"]
 
