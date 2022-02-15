@@ -76,14 +76,18 @@
         <h1> Session: {{event}}</h1>
         <h1> Driver: {{driver}}</h1>
     </div>
-{%endif%}
     <div class="driver_telemetry telemetry">
-        Driver telemetry goes here
+        <img src="static\racertelemetry.jpg" alt="Driver telemetry goes here">
     </div>
+{%endif%}
+
+{% if status1 %}
     <!-- Only add the below div if you have your own telemetry -->
     <div class="user_telemetry telemetry">
-        Your telemetry goes here
+        <img src="C:\Users\navjo\Desktop\CS50FinalProject\static\usertelemetry.jpeg" alt="Your telemetry goes here">
     </div>
+{% endif %}
+
     
 
 {%endblock%}

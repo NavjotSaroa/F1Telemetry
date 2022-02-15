@@ -1,11 +1,12 @@
 """Will act as backend to the html pages"""
 import os
+from teleplot import userplot
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, render_template, request, session
 from flask_session import Session
-from tempfile import mkdtemp
-from datetime import datetime
+# from tempfile import mkdtemp
+# from datetime import datetime
 
 from matplotlib import pyplot as plt
 import fastf1 as ff1
@@ -112,7 +113,26 @@ def index():
         event = db.execute("SELECT session FROM query WHERE id = (SELECT MAX(id) FROM query);")
         event = event[-1]["session"]
 
-        return render_template("index.html", year=year, track=track, session=event, driver=driver)
+        status1 = False#userplot() # Will get your race data
+
+        plotting.setup_mpl() # Everything below here gets f1 driver data.
+
+        weekend = ff1.get_session(year, track, event)
+
+        laps = weekend.load_laps(with_telemetry=True)
+        fastestlap = laps.pick_driver(driver).pick_fastest()
+        data = fastestlap.get_car_data()
+        t = data['Time']
+        throttle = data['Throttle']
+
+        # The rest is just plotting
+        fig, ax = plt.subplots()
+        ax.plot(t, throttle)
+        ax.set_xlabel('Time')
+        ax.set_ylabel('Throttle (%)')
+        plt.savefig("static\\racertelemetry.jpg")
+
+        return render_template("index.html", year=year, track=track, event=event, driver=driver, status1=status1)
 
 
 
