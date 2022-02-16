@@ -1,1 +1,1 @@
-SELECT * FROM query;
+.schema

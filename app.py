@@ -113,7 +113,7 @@ def index():
         event = db.execute("SELECT session FROM query WHERE id = (SELECT MAX(id) FROM query);")
         event = event[-1]["session"]
 
-        status1 = False#userplot() # Will get your race data
+        userplot() # Will get your race data
 
         plotting.setup_mpl() # Everything below here gets f1 driver data.
 
@@ -127,12 +127,12 @@ def index():
 
         # The rest is just plotting
         fig, ax = plt.subplots()
-        ax.plot(t, throttle)
+        ax.plot(t, throttle, color = '#ff1801')
         ax.set_xlabel('Time')
         ax.set_ylabel('Throttle (%)')
         plt.savefig("static\\racertelemetry.jpg")
 
-        return render_template("index.html", year=year, track=track, event=event, driver=driver, status1=status1)
+        return render_template("index.html", year=year, track=track, event=event, driver=driver)
 
 
 

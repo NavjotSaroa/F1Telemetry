@@ -51,3 +51,4 @@ dictionary = {2018:['Australian Grand Prix', 'Bahrain Grand Prix', 'Chinese Gran
 #                     print("About {}% \done".format(len(infolst)/8100))
 #             except:
 #                 print("This session didn't happen")
+

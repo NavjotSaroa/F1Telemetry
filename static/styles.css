@@ -45,8 +45,8 @@ nav {
 }
 
 .telemetry {
-    /* border-style: solid; */
-    margin: 10px;
+    /* border-style: solid none none none; */
+    margin: 5px;
     height: 500px;
 }
 
@@ -111,9 +111,14 @@ h1 {
     color: #ffadad
 }
 
+
 .intrack, .indriver {
     background-color: #000735;
     font-family: 'Audiowide', cursive;
     font-size: 20px;
     margin: 20px;
+}
+
+.top {
+    padding-top: 20px;;
 }

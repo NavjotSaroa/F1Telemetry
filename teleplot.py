@@ -2,7 +2,9 @@ import serial.tools.list_ports
 from matplotlib import pyplot as plt
 import time
 import datetime
-
+from matplotlib.ticker import AutoMinorLocator
+from fastf1 import plotting
+plotting.setup_mpl()
 def userplot():
     serialInst = serial.Serial()
 
@@ -23,10 +25,10 @@ def userplot():
         if serialInst.in_waiting:
             try:
                 packet = serialInst.readline()
-                reading = int(packet.decode('utf').rstrip("\r\n")[:-1])
-                status = int(packet.decode('utf').rstrip("\r\n")[-1])
+                reading = float(packet.decode('utf').rstrip("\r\n")[:-1])
+                status = float(packet.decode('utf').rstrip("\r\n")[-1])
             except ValueError:
-                status = int(packet.decode('utf').rstrip("\r\n")[-1])
+                status = float(packet.decode('utf').rstrip("\r\n")[-1])
 
             if status == True:
                 if i == 0:
@@ -34,9 +36,9 @@ def userplot():
                 xlst.append(time.time() - start_time)
                 # print(xlst[-1])
                 if reading > 8:
-                    ylst.append(0)
+                    ylst.append(0.0)
                 elif reading < 3:
-                    ylst.append(100)
+                    ylst.append(100.0)
                 else:
                     ylst.append(throttle(reading,8,3))
 
@@ -52,7 +54,25 @@ def userplot():
     for x in xlst: # Converts the xlst values (which are in seconds) to minutes and seconds. Eg: 65 -> 1:05
         x = str(datetime.timedelta(seconds=x))
 
+        
+    ax = plt.axes()
 
-    plt.plot(xlst,ylst)
+    ax.grid(which='major', color='white', linewidth=1)
+    ax.grid(which='minor', color='white', linewidth=0.1)
+
+    ax.minorticks_on()
+
+    ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+    ax.yaxis.set_minor_locator(AutoMinorLocator(4))
+
+    ax.set_xlabel('Time')
+    ax.set_ylabel('Throttle (%)')
+
+    # ax.set_facecolor("black")
+    # plt.figure(facecolor="grey", markerfacecolor="green")
+    # with plt.style.context()):
+    plt.style.use("dark_background")
+    plt.plot(xlst,ylst, color = "#01E8FF")
+    plt.grid(linewidth=1, color="grey")
     plt.savefig("static\\usertelemetry.jpg")
-    return True
+    return
