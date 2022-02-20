@@ -27,7 +27,9 @@ This database is used by the HTML page, using flask (in app.py) and jinja, I cre
 );
   ```
 Upon the submission of the name of the driver, the Arduino sketch (sketch.ino) is run. This is the part where the actual data logging happens, the user runs a lap on any racing game (ideally a game that runs f1 cars on f1 tracks, like the F1 Game series, since the whole point of the webpage is to compare the users' throttle input to that of a real F1 driver) using the Arduino setup (wokwi-project.txt). 
+  
 The system consists of an ultrasonic sensor, which is to be placed in front of the throttle pedal to measure the distance to said pedal (I would have used another ultrasonic sensor for the brakes, but I did not have one and the only way to get one was to go to a store that is a 40 minute drive away), and a potentiometer, to make sure that the sensor logs data only when the user wants to (ie: during the lap). sketch.ino reads the distance and prints it on the Serial Monitor, for app.py to read, convert to a percentage value indicating how far has the throttle pedal been pressed, and then plot it to a graph against time.
+  
 Once this is done, app.py uses fastf1 to find the throttle data of the fastest lap that the chosen driver put in on the chosen session of the chosen track in the chosen season. Which is why it took so long to make the database, the library had to go through all kinds of data relevant to a race weekend (throttle, brake, DRS, gear shifts of every driver in every single weekend, along with the weather conditions for every minute of these weekends, and any other data that I have forgot to mention).
   
 Finally, after all that is done, the telemetry data of the user and the F1 driver show up on index.html
