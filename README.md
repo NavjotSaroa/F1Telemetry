@@ -1,5 +1,4 @@
 # Accelerator Reading Sensory Equipment: Throttle Data Logger
-#### Video Demo:  <https://youtu.be/qeih3HxcpwM>
 #### Description:
 This project's aim is to collect telemetry data on my sim racing setup using Arduino sensors, and then view it on an HTML web page.
   
